@@ -1,0 +1,110 @@
+* {
+    box-sizing: border-box;
+  }
+  .main-container {
+    max-width: 800px;
+    margin: auto;
+  }
+  h1.titulo {
+    color: rgb(255, 176, 4);
+    margin: 50px auto 80px auto;
+    text-align: center;
+    font-family: Cambria, Cochin, Georgia, Times, Times New Roman, serif;
+  }
+  h1#msg-final {
+    text-align: center;
+    color: rgb(253, 16, 16);
+    transition: all .5s ease;
+    transform: scale(0);
+    min-height: 50px;
+    margin-bottom: 0;
+  }
+  .zoom-in {
+    transform: scale(1) !important;
+  }
+  #acierto {
+    text-align: center;
+    min-height: 24px;
+    transform: scale(0);
+  }
+  .acierto {
+    animation: zoomInOut 1s ease;
+  }
+  .rojo {
+    color: rgb(250, 0, 0);
+  }
+  .verde {
+    color: rgb(3, 20, 245);
+  }
+  @keyframes zoomInOut {
+    0% { transform: scale(0); }
+    50% { transform: scale(1); }
+    70% { transform: scale(1); }
+    100% { transform: scale(0); }
+  }
+  h2.palabra {
+    margin: 0 auto 25px auto;
+    text-align: center;
+    color: rgb(0, 0, 0);
+    text-transform: uppercase;
+    letter-spacing: 6px;
+  }
+  .flex-row {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    margin: 10px auto; 
+  }
+  .no-wrap {
+    flex-wrap: nowrap !important;
+  }
+  .col {
+    width: 50%;
+    text-align: center;
+  }
+  
+  #turnos h3 {
+    margin: auto;
+  }
+  h3 span {
+     color: orangered;
+  }
+  .letra:disabled {
+    color:rgba(15, 4, 4, 0.5);
+  }
+  picture {
+    position: relative;
+  }
+  picture img {
+    position: absolute;
+    top: -203px;
+    left: -205px;
+    height: 225px;
+  }
+  #image5, #image4, #image3,
+  #image2, #image1, #image0 {
+    opacity: 0;
+    transition: opacity .3s ease;
+  }
+  .fade-in {
+    opacity: 1 !important;
+  }
+  .encuadre {
+    border: 2px dashed rgb(0, 0, 0);
+    padding: 3px 2px 2px 6px;
+  }
+  body {
+    background: rgb(218, 75, 9);
+    background: linear-gradient(90deg, rgba(49, 1, 77, 0.926) 3%, rgba(15, 1, 14, 0.837) 94%, rgba(31,36,0,0.9318102240896359) 100%);
+    color: rgb(3, 2, 2);
+    font-family: Arial, Helvetica, sans-serif;
+    display: flex;
+    flex-direction: column;
+    align-items: center;    
+    justify-content: center;  
+    height: 80vh;
+    margin: 0;
+    overflow: hidden;
+}
+
+

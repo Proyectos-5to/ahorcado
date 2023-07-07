@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="utf-8">
+    <title>Calculo Ahogado</title>
+    <link rel="stylesheet" href="estilo.css">
+  </head>
+  <body>
+      <div class="main-container">
+        
+        <h1 class="titulo">Juego del ahorcado</h1>
+        <h1 id="msg-final"></h1>
+        <h3 id="acierto"></h3>
+        <div class="flex-row no-wrap">
+          <h2 class="palabra" id="palabra"></h2>  
+        </div>
+        <div class="flex-row" id="turnos">
+          <div class="col">
+            <h3>Intentos restantes: <span id="intentos">6</span></h3>
+          </div>
+          <div class="col">
+            <button onclick="inicio()" id="reset">Elegir otra palabra</button>
+            <button onclick="pista()" id="pista">Dame una pista!</button>
+            <span id="hueco-pista"></span>
+          </div>  
+          </div>
+        
+        <div class="flex-row">
+          <div class="col">
+            <div class="flex-row" id="abcdario">
+            </div>
+          </div>
+          <div class="col"></div>
+        </div>
+
+      </div>
+  </body>
+  <script>
+
+var palabras = [["carbono", "un compuesto quimico"], ["Tren", "transporte"], ["cerezo", "Un árbol"], ["plaza", "Espacio público"], ["fuego", "Gran invento"], ["manzana", "Una fruta"], ["fornite", "Un juego"], ["programacion", "Una carrera Tecnica"], ["guatemala", "Un pais"], ["amarillo", "un color"], ["leopardo", "Un animal"], ["mexico", "Un país"], ["Pedro", "mi profe"], ["java", "idioma de programacion"],["Kinal","donde estudio"]];
+// Palabra a averiguar
+var palabraEncontrar = "";
+// Numero  aleatorio
+var aleatorio;
+// Palabra oculta
+var Palabraoculta = [];
+// Elemento html de la palabra
+var hueco = document.getElementById("palabra");
+// Contador de intentos
+var cont = 6;
+// Botones de letras
+var buttons = document.getElementsByClassName('letra');
+// Boton de reset
+var btnInicio = document.getElementById("reset");
+
+
+// ### FUNCIONES ###
+
+// Escoger palabra al azar
+function generaPalabra() {
+  aleatorio = (Math.random() * 14).toFixed(0);
+  palabraEncontrar = palabras[aleatorio][0].toUpperCase();
+  console.log(palabraEncontrar);
+}
+
+// Funcion para pintar los guiones de la palabra
+function pintarGuiones(num) {
+  for (var i = 0; i < num; i++) {
+    Palabraoculta[i] = "_";
+  }
+  hueco.innerHTML = Palabraoculta.join("");
+}
+
+//Generar abecedario
+function generaABC (a,z) {
+  document.getElementById("abcdario").innerHTML = "";
+  var i = a.charCodeAt(0), j = z.charCodeAt(0);
+  var letra = "";
+  for( ; i<=j; i++) {
+    letra = String.fromCharCode(i).toUpperCase();
+    document.getElementById("abcdario").innerHTML += "<button value='" + letra + "' onclick='intento(\"" + letra + "\")' class='letra' id='"+letra+"'>" + letra + "</button>";
+    if(i==110) {
+      document.getElementById("abcdario").innerHTML += "<button value='Ñ' onclick='intento(\"Ñ\")' class='letra' id='"+letra+"'>Ñ</button>";
+    }
+  }
+}
+
+// Chequear intento
+function intento(letra) {
+  document.getElementById(letra).disabled = true;
+  if(palabraEncontrar.indexOf(letra) != -1) {
+    for(var i=0; i<palabraEncontrar.length; i++) {
+      if(palabraEncontrar[i]==letra) Palabraoculta[i] = letra;
+    }
+    hueco.innerHTML = Palabraoculta.join("");
+    document.getElementById("acierto").innerHTML = "Bien!";
+    document.getElementById("acierto").className += "acierto verde";
+  }else{
+    cont--;
+    document.getElementById("intentos").innerHTML = cont;
+    document.getElementById("acierto").innerHTML = "Fallo!";
+    document.getElementById("acierto").className += "acierto rojo";
+    document.getElementById("image"+cont).className += "fade-in";
+  }
+  compruebaFin();
+  setTimeout(function () { 
+    document.getElementById("acierto").className = ""; 
+  }, 800);
+}
+
+// Obtener pista
+function pista() {
+  document.getElementById("hueco-pista").innerHTML = palabras[aleatorio][1];
+}
+
+// Compruba si ha finalizado
+function compruebaFin() {
+  if( Palabraoculta.indexOf("_") == -1 ) {
+    document.getElementById("msg-final").innerHTML = "Felicidades !!";
+    document.getElementById("msg-final").className += "zoom-in";
+    document.getElementById("palabra").className += " encuadre";
+    for (var i = 0; i < buttons.length; i++) {
+      buttons[i].disabled = true;
+    }
+    document.getElementById("reset").innerHTML = "Empezar";
+    btnInicio.onclick = function() { location.reload() };
+  }else if( cont == 0 ) {
+    document.getElementById("msg-final").innerHTML = "Game Over";
+    document.getElementById("msg-final").className += "zoom-in";
+    for (var i = 0; i < buttons.length; i++) {
+      buttons[i].disabled = true;
+    }
+    document.getElementById("reset").innerHTML = "Empezar";
+    btnInicio.onclick = function () { location.reload() };
+  }
+}
+
+// Restablecer juego
+function inicio() {
+  generaPalabra();
+  pintarGuiones(palabraEncontrar.length);
+  generaABC("a","z");
+  cont = 6;
+  document.getElementById("intentos").innerHTML=cont;
+}
+
+// Iniciar
+window.onload = inicio();
+  </script>
+</html>
